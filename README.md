@@ -1,7 +1,12 @@
 # ExpertSystem
 
 ### 專案介紹
-<p>以中藥材為主題，透過提供症狀(symptom)，專家系統會推薦適合的中藥材(medicine)<p>
+<p>以中藥材為主題，透過提供<strong>症狀(symptom)<strong>，專家系統會推薦適合的中<strong>藥材(medicine)<strong><p>
+  
+<pre><code>This is a code block.
+</code></pre>
+
+- - -
 
 ### 檔案簡介
 - expertEngine：專家系統推論模組
