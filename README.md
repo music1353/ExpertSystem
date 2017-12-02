@@ -46,6 +46,31 @@ doctor = hs.doctor(path) # 啟動doctor模式
 </code></pre>
 <br/>
 
+### 各類方法
+- - -
+Class expertSystem {
+* __init__: (string)dataBase_path</p>
+* read_dataBase(): <strong>return</strong> (list)database</p>
+* list_database(): print all data database
+* list_database_symptom(): print all symptom in database
+* set_data( (string)medicine, (string, list)symptom ): in order to format data which need to store
+* get_differ( (list)predict, (string)symptom ): delete same symptom in two or more predict medicine, will         <strong>return</strong> (list)compairsion_symptom
+* re_callback( (list)predict, (string)symptom ): Q&A with left symptom to choose accurate medicine
+* run(): run expertSystem(according to your identify then can do something)
+<p>}</p>
+</br>
+
+Class doctor(expertSystem) {
+* add_knowledge( (string)medicine, (string, list)symptom ): add new knowledge in database
+* del_knowledge( (string)medicine ): delete medicine from database
+<p>}</p>
+</br>
+
+Class person(expertSystem) {
+* match( (string)symptom ): key in your symptom, then expertSystem will provide some medicine for you, <strong>return</strong> (list)predict
+<p>}</p>
+</br>
+
 ### 程式範例
 - - -
 啟動專家推論問答：
