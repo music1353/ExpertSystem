@@ -9,4 +9,4 @@ from expertEngine import herbologySystem as hs
 path = 'knowledgeBase.json' # database路徑
 expertSystem = hs.expertSystem(path) # 啟動expertEngin
 
-expertSystem.list_database_symptom()
+expertSystem.list_database_symptom() # 列出資料庫所有症狀

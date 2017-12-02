@@ -59,16 +59,50 @@ class expertSystem:
         compairsion_symptom = self.get_differ(predict, symptom)
         
         for i, medicine in enumerate(predict):
-            for sym in compairsion_symptom[i]:
+            for j, sym in enumerate(compairsion_symptom[i]):
                 print('請問您有', sym, '的症狀嗎？ (Yes/No)')
                 boolean_symptom = input('症狀：')
                 if boolean_symptom=='Yes':
                     print('您可能需要', medicine, '中藥材')
                     break
+                elif i==len(predict)-1 and j==len(compairsion_symptom[i])-1 and boolean_symptom=='No':
+                    print('推薦給您', predict, '中藥材')
                 elif boolean_symptom=='No':
                     continue
             else: continue
             break
+            
+    def run(self):
+        identify = input('請問您的身份是(person/doctor)：')
+    
+        if(identify == 'person'):
+            p = person(self.dataBase_path)
+        
+            p.list_database_symptom()
+            symptom = input('請問您的症狀是：')
+        
+            predict = p.match(symptom)
+        
+            if( predict==[] ):
+                print('沒有這種中藥材呦')
+            elif( len(predict)==1 ):
+                print('您可能需要', predict, '中藥材')
+            else:
+                p.re_callback(predict, symptom)
+              
+        elif(identify == 'doctor'):
+            d = doctor(self.dataBase_path)
+        
+            intent = input('請問要新增中藥材(0), 還是刪除中藥材(1)：')
+        
+            if int(intent)==0:
+                medicine = input('請問要新增的中藥材是：')
+                symptom = input('適用症狀為：')
+                d.add_knowledge(medicine, symptom)
+            elif int(intent)==1:
+                medicine = input('請問要刪除的中藥材名稱是：')
+                d.del_knowledge(medicine)
+                
                 
 class doctor(expertSystem):
     def add_knowledge(self, medicine, symptom):
