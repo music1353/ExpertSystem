@@ -21,7 +21,7 @@
 <p>專案右上點擊綠色按鈕(Clone or download)，選擇Download ZIP<p>
 <br/>
 
-### expertEngine API
+### expertEngine Rest API
 - - -
 匯入模組：
 <pre><code>import sys
@@ -40,8 +40,22 @@ from expertEngine import herbologySystem as hs
 </code></pre>
 <br/>
 
-啟動<strong>person模式</strong>或是<strong>doctor模式</strong>的expertEngine：
+啟動<strong>person模式</strong>或是<strong>doctor模式</strong>的expertEngine(詳細類操作請參考<strong>各類方法</strong>)：
 <pre><code>person = hs.person(path) # 啟動person模式
 doctor = hs.doctor(path) # 啟動doctor模式
+</code></pre>
+<br/>
+
+### 程式範例
+- - -
+啟動專家推論問答：
+<pre><code>import sys
+sys.path.append('expertEngine') # 告訴系統模組位置
+from expertEngine import herbologySystem as hs
+
+path = 'knowledgeBase.json'
+eS = hs.expertSystem(path)
+
+eS.run()
 </code></pre>
 <br/>
