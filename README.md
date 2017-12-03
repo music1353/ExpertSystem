@@ -49,8 +49,8 @@ doctor = hs.doctor(path) # 啟動doctor模式
 ### 各類方法
 - - -
 Class expertSystem {
-* __init__: (string)dataBase_path</p>
-* read_dataBase(): <strong>return</strong> (list)database</p>
+* __init__: (string)database_path</p>
+* read_database(): <strong>return</strong> (list)database</p>
 * list_database(): print all data database
 * list_database_symptom(): print all symptom in database
 * set_data( (string)medicine, (string, list)symptom ): in order to format data which need to store
