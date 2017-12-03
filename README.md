@@ -84,3 +84,30 @@ eS = hs.expertSystem(path)
 eS.run()
 </code></pre>
 <br/>
+
+查看database資料：
+<pre><code>import sys
+sys.path.append('expertEngine')
+from expertEngine import herbologySystem as hs
+
+path = 'knowledgeBase.json' # database路徑
+expertSystem = hs.expertSystem(path) # 啟動expertEngin
+
+expertSystem.list_database() # 列出知識庫資料
+</code></pre>
+<br/>
+
+
+查看目前database所有症狀：
+<pre><code>import sys
+sys.path.append('expertEngine')
+from expertEngine import herbologySystem as hs
+
+path = 'knowledgeBase.json' # database路徑
+expertSystem = hs.expertSystem(path) # 啟動expertEngin
+
+expertSystem.list_database_symptom() # 列出資料庫所有症狀
+</code></pre>
+<br/>
+
+
