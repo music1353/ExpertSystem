@@ -4,23 +4,23 @@ import json
 import codecs
 import re
 
-class expertSystem:
-    def __init__(self, dataBase_path):
-        self.dataBase_path = dataBase_path
+class expertSystem(object):
+    def __init__(self, database_path):
+        self.database_path = database_path
         
-    def read_dataBase(self):
-        with codecs.open(self.dataBase_path, 'r', 'utf-8') as f:
+    def read_database(self):
+        with codecs.open(self.database_path, 'r', 'utf-8') as f:
             database = json.load(f)
             return database
         
     def list_database(self):
-        database = self.read_dataBase()
+        database = self.read_database()
         
         for db in database:
             print(db)
         
     def list_database_symptom(self):
-        database = self.read_dataBase()
+        database = self.read_database()
         
         list_sym = []
         for db in database:
@@ -34,12 +34,13 @@ class expertSystem:
         
     def set_data(self, medicine, symptom):
         # symptom為list
-        re_symptom = re.split(r";|,|\?\s|;\s|,\s", symptom.replace(' ', '')) 
+        re_symptom = re.split(r"：|。|！|；|、|;|,|\?\s|;\s|,\s", symptom.replace(' ', '')) 
         item = {'medicine': medicine, 'symptom':re_symptom}
         return item
         
     def get_differ(self, predict, symptom):
-        database = self.read_dataBase()
+        database = self.read_database()
+        re_symptom = re.split(r"：|。|！|；|、|;|,|\?\s|;\s|,\s", symptom.replace(' ', ''))
         
         compairsion_symptom = []
         
@@ -51,7 +52,12 @@ class expertSystem:
         
         # remove previous same symptom
         for item in compairsion_symptom:
-            item.remove(symptom)
+            for sym in re_symptom:
+                try:
+                    item.remove(sym)
+                except:
+                    print('無需刪除項目')
+                    pass
             
         return compairsion_symptom
     
@@ -76,7 +82,7 @@ class expertSystem:
         identify = input('請問您的身份是(person/doctor)：')
     
         if(identify == 'person'):
-            p = person(self.dataBase_path)
+            p = person(self.database_path)
         
             p.list_database_symptom()
             symptom = input('請問您的症狀是：')
@@ -91,7 +97,7 @@ class expertSystem:
                 p.re_callback(predict, symptom)
               
         elif(identify == 'doctor'):
-            d = doctor(self.dataBase_path)
+            d = doctor(self.database_path)
         
             intent = input('請問要新增中藥材(0), 還是刪除中藥材(1)：')
         
@@ -106,12 +112,12 @@ class expertSystem:
                 
 class doctor(expertSystem):
     def add_knowledge(self, medicine, symptom):
-        database = super().read_dataBase()
+        database = super().read_database()
         item = super().set_data(medicine, symptom)
         database.append(item)
         
         try:
-            with codecs.open(self.dataBase_path, 'w') as f:
+            with codecs.open(self.database_path, 'w') as f:
                 json.dump(database, f, ensure_ascii=False)
                 
             print('成功新增', medicine, '中藥材！')
@@ -119,7 +125,7 @@ class doctor(expertSystem):
             print('寫入失敗', e)
             
     def del_knowledge(self, medicine):
-        database = super().read_dataBase()
+        database = super().read_database()
         
         re_medicine = list( re.split(r"：|。|！|；|、|;|,|\?\s|;\s|,\s", medicine.replace(' ', '')) )
         
@@ -134,7 +140,7 @@ class doctor(expertSystem):
                     except e:
                         print('刪除', med, '錯誤', e)
         try:
-            with codecs.open(self.dataBase_path, 'w') as f:
+            with codecs.open(self.database_path, 'w') as f:
                 json.dump(database, f, ensure_ascii=False)
         except e:
             print('寫入失敗', e)
@@ -148,10 +154,17 @@ class doctor(expertSystem):
 class person(expertSystem):
     def match(self, symptom):
         predict = []
-        database = super().read_dataBase()
+        database = super().read_database()
         re_symptom = list( re.split(r"：|。|！|；|、|;|,|\?\s|;\s|,\s", symptom.replace(' ', '')) )
         
-        for db in database:
-            if set(re_symptom).issubset(set(db['symptom'])):
-                predict.append(db['medicine'])
+        for re_sym in re_symptom:
+            for db in database:
+                if set(re_symptom).issubset(set(db['symptom'])) and len(re_symptom)>1:
+                    predict.append(db['medicine'])
+                    break;
+                elif re_sym in db['symptom']:
+                    predict.append(db['medicine'])
+        
+        predict = list(set(predict))
+        
         return predict
