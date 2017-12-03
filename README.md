@@ -54,7 +54,7 @@ Class expertSystem {
 * list_database(): print all data database
 * list_database_symptom(): print all symptom in database
 * set_data( (string)medicine, (string, list)symptom ): in order to format data which need to store
-* get_differ( (list)predict, (string)symptom ): delete same symptom in two or more predict medicine, will         <strong>return</strong> (list)compairsion_symptom
+* get_differ( (list)predict, (string, list)symptom ): delete same symptom in two or more predict medicine, will         <strong>return</strong> (list)compairsion_symptom
 * re_callback( (list)predict, (string)symptom ): Q&A with left symptom to choose accurate medicine
 * run(): run expertSystem(according to your identify then can do something)
 <p>}</p>
@@ -67,7 +67,7 @@ Class doctor(expertSystem) {
 </br>
 
 Class person(expertSystem) {
-* match( (string)symptom ): key in your symptom, then expertSystem will provide some medicine for you, <strong>return</strong> (list)predict
+* match( (string, list)symptom ): key in your symptom, then expertSystem will provide some medicine for you, <strong>return</strong> (list)predict
 <p>}</p>
 </br>
 
