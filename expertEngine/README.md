@@ -4,15 +4,17 @@
 -----
 
 (Module)
-expertEngine - __init__.py
-             - engine.py
-             - herbologySystem.py
+expertEngine
+</br>
+__init__.py </br>
+engine.py </br>
+herbologySystem.py </br>
              
 -----
 
 </br>
-* herbologySystem.py：中藥材專家(input herbologySystem.json)
-* engine.py：基本推論引擎
+1. herbologySystem.py：中藥材專家(input herbologySystem.json)
+2. engine.py：基本推論引擎
 </br>
 </br>
-* developer Mr.Su
+Developer Mr.Su
