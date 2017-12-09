@@ -1,5 +1,8 @@
 # coding: utf-8
 
+# version 1.7(match update)
+# herbologySystem
+
 import json
 import codecs
 import re
@@ -42,16 +45,16 @@ class expertSystem(object):
         database = self.read_database()
         re_symptom = re.split(r"：|。|！|；|、|;|,|\?\s|;\s|,\s", symptom.replace(' ', ''))
         
-        compairsion_symptom = []
+        comparison_symptom = []
         
         # search predict medicine's symptom
         for medicine in predict:
             for db in database:
                 if medicine==db['medicine']:
-                    compairsion_symptom.append(db['symptom'])
+                    comparison_symptom.append(db['symptom'])
         
         # remove previous same symptom
-        for item in compairsion_symptom:
+        for item in comparison_symptom:
             for sym in re_symptom:
                 try:
                     item.remove(sym)
@@ -59,34 +62,49 @@ class expertSystem(object):
                     print('無需刪除項目')
                     pass
             
-        return compairsion_symptom
+        return comparison_symptom
     
     def re_callback(self, predict, symptom):
-        compairsion_symptom = self.get_differ(predict, symptom)
+        comparison_symptom = self.get_differ(predict, symptom)
         
+        remember = []
         for i, medicine in enumerate(predict):
-            for j, sym in enumerate(compairsion_symptom[i]):
-                print('請問您有', sym, '的症狀嗎？ (Yes/No)')
-                boolean_symptom = input('症狀：')
-                if boolean_symptom=='Yes':
-                    print('您可能需要', medicine, '中藥材')
-                    break
-                elif i==len(predict)-1 and j==len(compairsion_symptom[i])-1 and boolean_symptom=='No':
-                    print('推薦給您', predict, '中藥材')
-                elif boolean_symptom=='No':
-                    continue
+            for j, sym in enumerate(comparison_symptom[i]):
+                if sym in remember:
+                    pass
+                else:
+                    print('請問您有', sym, '的症狀嗎？ (Yes/No)')
+                    remember.append(sym)
+                    boolean_symptom = input('症狀：')
+                    if boolean_symptom=='Yes':
+                        print('您可能需要', medicine, '中藥材')
+                        break
+                    elif i==len(predict)-1 and j==len(comparison_symptom[i])-1 and boolean_symptom=='No':
+                        print('推薦給您', predict, '中藥材')
+                    elif boolean_symptom=='No':
+                        continue
             else: continue
             break
             
+    def initSystem(self):
+        del p
+            
     def run(self):
         identify = input('請問您的身份是(person/doctor)：')
-    
-        if(identify == 'person'):
-            p = person(self.database_path)
         
+        # TODO update init
+        if( identify=='初始化'):
+            p = person(self.database_path)
+            del p
+            p = person(self.database_path)
+            p.run()
+            
+        elif(identify == 'person'):
+            p = person(self.database_path)
+            
             p.list_database_symptom()
             symptom = input('請問您的症狀是：')
-        
+            
             predict = p.match(symptom)
         
             if( predict==[] ):
@@ -107,7 +125,10 @@ class expertSystem(object):
                 d.add_knowledge(medicine, symptom)
             elif int(intent)==1:
                 medicine = input('請問要刪除的中藥材名稱是：')
-                d.del_knowledge(medicine)
+                d.del_knowledge(medicine)    
+        # TODO update
+        else:
+            print('沒打對')
                 
                 
 class doctor(expertSystem):
@@ -153,18 +174,24 @@ class doctor(expertSystem):
             
 class person(expertSystem):
     def match(self, symptom):
-        predict = []
+        predict = [] # 預測的medicine
         database = super().read_database()
         re_symptom = list( re.split(r"：|。|！|；|、|;|,|\?\s|;\s|,\s", symptom.replace(' ', '')) )
         
         for re_sym in re_symptom:
             for db in database:
-                if set(re_symptom).issubset(set(db['symptom'])) and len(re_symptom)>1:
+                if set(re_symptom).issubset(set(db['symptom'])) and len(re_symptom)==len(db['symptom']):
                     predict.append(db['medicine'])
-                    break;
-                elif re_sym in db['symptom']:
-                    predict.append(db['medicine'])
-        
+                    print('if')
+                    break
+                    
+        if(predict==[]):
+            for re_sym in re_symptom:
+                for db in database:
+                    if re_sym in db['symptom']:
+                        predict.append(db['medicine'])
+                        print('elif')
+                            
         predict = list(set(predict))
         
         return predict

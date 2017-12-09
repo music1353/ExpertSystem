@@ -1,20 +1,18 @@
 ### expertEngine 專家引擎模組
-<p>version 1.6</p>
+<p>version 1.7</p>
 
 -----
 
 (Module)
-expertEngine
-</br>
-__init__.py </br>
-engine.py </br>
-herbologySystem.py </br>
+expertEngine - __init__.py
+             - engine.py (1.6)
+             - herbologySystem.py (1.7)
              
 -----
 
 </br>
-1. herbologySystem.py：中藥材專家(input herbologySystem.json) </br>
-2. engine.py：基本推論引擎
+* herbologySystem.py：中藥材專家(input herbologySystem.json)
+* engine.py：基本推論引擎
 </br>
 </br>
-Developer Mr.Su
+* developer Mr.Su
